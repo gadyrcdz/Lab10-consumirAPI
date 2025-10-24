@@ -31,9 +31,7 @@ Este proyecto es una aplicación web desarrollada en React que consume un API de
 
 1. **Clonar o descargar el proyecto**
 
-```bash
-cd productos-app
-```
+
 
 2. **Instalar dependencias**
 
