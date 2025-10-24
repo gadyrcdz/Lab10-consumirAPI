@@ -3,25 +3,20 @@ import './App.css';
 import { API_CONFIG } from './config';
 
 function App() {
-  // Estados principales
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // Estados de controles
   const [format, setFormat] = useState('application/json');
   const [pageSize, setPageSize] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState('name:asc');
-  
-  // Estado del modal
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showRaw, setShowRaw] = useState(false);
   const [productDetail, setProductDetail] = useState(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
 
-  // Función para obtener productos
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
@@ -59,7 +54,6 @@ function App() {
     }
   };
 
-  // Función para parsear XML
   const parseXMLProducts = (xmlString) => {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
@@ -84,7 +78,6 @@ function App() {
     };
   };
 
-  // Función para obtener detalle del producto
   const fetchProductDetail = async (id) => {
     setLoadingDetail(true);
     try {
@@ -111,12 +104,10 @@ function App() {
     }
   };
 
-  // Efecto para cargar productos
   useEffect(() => {
     fetchProducts();
   }, [currentPage, pageSize, format]);
 
-  // Función para ordenar productos
   const getSortedProducts = () => {
     const [field, order] = sortBy.split(':');
     const sorted = [...products].sort((a, b) => {
@@ -141,7 +132,6 @@ function App() {
     return sorted;
   };
 
-  // Manejadores de eventos
   const handleFormatChange = (e) => {
     setFormat(e.target.value);
     setCurrentPage(1);
@@ -167,7 +157,7 @@ function App() {
   return (
     <div className="App">
       <div className="header">
-        <h1>🛍️ Catálogo de Productos</h1>
+        <h1>Catálogo de Productos</h1>
         
         <div className="controls">
           <div className="control-group">
@@ -200,7 +190,6 @@ function App() {
         </div>
       </div>
 
-      {/* Loading */}
       {loading && (
         <div className="products-grid">
           {[...Array(pageSize)].map((_, i) => (
@@ -212,7 +201,6 @@ function App() {
         </div>
       )}
 
-      {/* Error */}
       {error && (
         <div className="error-state" role="alert">
           <h2>⚠️ Error al cargar productos</h2>
@@ -223,7 +211,6 @@ function App() {
         </div>
       )}
 
-      {/* Empty */}
       {!loading && !error && products.length === 0 && (
         <div className="empty-state">
           <h2>📦 No hay productos para mostrar</h2>
@@ -231,7 +218,6 @@ function App() {
         </div>
       )}
 
-      {/* Products Grid */}
       {!loading && !error && products.length > 0 && (
         <>
           <div className="products-grid">
@@ -247,7 +233,6 @@ function App() {
             ))}
           </div>
 
-          {/* Pagination */}
           <div className="pagination">
             <div className="pagination-info">
               Página {currentPage} de {totalPages}
@@ -270,7 +255,6 @@ function App() {
         </>
       )}
 
-      {/* Modal de detalle */}
       {selectedProduct && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
